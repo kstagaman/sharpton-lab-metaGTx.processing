@@ -1,0 +1,24 @@
+{
+    "id": "3BF71B63",
+    "path": "/Volumes/GoogleDrive/My Drive/Code/Shell_scripts/metagenomic_seq_processing.sh",
+    "project_path": null,
+    "type": "sh",
+    "hash": "4160448529",
+    "contents": "",
+    "dirty": false,
+    "created": 1652227159136.0,
+    "source_on_save": false,
+    "relative_order": 7,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1651179604,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1651179604,
+    "read_only": false,
+    "read_only_alternatives": []
+}

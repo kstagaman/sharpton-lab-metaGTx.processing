@@ -1,0 +1,24 @@
+{
+    "id": "E5418FE1",
+    "path": "~/OSU_repos/ZZ_oral_metagenomes/generate_humann3_array_commands.sh",
+    "project_path": null,
+    "type": "sh",
+    "hash": "2410160016",
+    "contents": "",
+    "dirty": true,
+    "created": 1652208142323.0,
+    "source_on_save": false,
+    "relative_order": 4,
+    "properties": {
+        "source_window_id": "",
+        "Source": "Source"
+    },
+    "folds": "",
+    "lastKnownWriteTime": 1652207512,
+    "encoding": "UTF-8",
+    "collab_server": "",
+    "source_window": "",
+    "last_content_update": 1652302390572,
+    "read_only": false,
+    "read_only_alternatives": []
+}

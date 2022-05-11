@@ -1,0 +1,7 @@
+# .gitignore
+
+metaGTx_processing.R
+.Rbuildignore
+.RData
+.Rhistory
+.DS_Store
