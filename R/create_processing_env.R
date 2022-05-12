@@ -32,7 +32,8 @@ create.processing.env <- function(
     temp.dir = NULL,
     max.memory = NULL,
     qsub.options = NULL,
-    save.env.dir = NULL
+    save.env.dir = NULL,
+    ...
 ) {
   require(magrittr)
   require(stringr)

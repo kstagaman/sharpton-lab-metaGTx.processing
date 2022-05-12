@@ -17,7 +17,8 @@ create.processing.env(
   temp.dir = NULL,
   max.memory = NULL,
   qsub.options = NULL,
-  save.env.dir = NULL
+  save.env.dir = NULL,
+  ...
 )
 }
 \arguments{
