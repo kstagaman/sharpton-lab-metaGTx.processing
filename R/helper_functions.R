@@ -8,7 +8,7 @@
 #' @seealso \code{\link{system}}, \code{\link{generate.full.commands}}
 #' @export
 
-tar.directory <- function(location, match.pattern = NULL) {
+tgz.directories <- function(location, match.pattern = NULL) {
   require(magrittr)
   require(stringr)
   if (is.null(match.pattern)) {
@@ -24,8 +24,28 @@ tar.directory <- function(location, match.pattern = NULL) {
   } else if (length(target.dir) == 0) {
     rlang::inform("No directories detected, nothing done.")
   } else {
-    cmd <- paste0("tar zvcf ", target.dir, ".tgz ", target.dir)
-    system(cmd)
+    tar(tarfile = paste0(target.dir, ".tgz"), files = target.dir, compression = "gzip")
+  }
+}
+
+#' @export
+
+remove.directories <- function(location, match.pattern = NULL) {
+  require(magrittr)
+  require(stringr)
+  if (is.null(match.pattern)) {
+    target.dirs <- location
+  } else {
+    target.dirs <- list.dirs(path = location, full.names = TRUE) %>%
+      str_subset(match.pattern)
+  }
+  if (length(target.dir) == 0) {
+    rlang::inform("No directories detected, nothing done.")
+  } else {
+    for (target.dir in target.dirs) {
+      file.remove(list.files(path = target.dir, full.names = T, recursive = T))
+      file.remove(target.dir)
+    }
   }
 }
 

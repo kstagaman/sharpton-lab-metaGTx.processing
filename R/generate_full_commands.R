@@ -60,7 +60,11 @@ generate.full.commands <- function(
       cmd <- paste(
         cmd,
         paste0(
-          "Rscript -e \"metaGTx.processing::tar.directory(location='", direct.out,
+          "Rscript -e \"metaGTx.processing::tgz.directories(location='", direct.out,
+          "', match.pattern='", name, "')\" ;"
+        ),
+        paste0(
+          "Rscript -e \"metaGTx.processing::remove.directories(location='", direct.out,
           "', match.pattern='", name, "')\" ;"
         ),
         paste0(

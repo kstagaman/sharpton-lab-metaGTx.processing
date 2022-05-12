@@ -40,7 +40,15 @@ create.processing.env <- function(
   vars <- as.list(rlang::call_match(defaults = TRUE))[-1]
   newEnv <- new.env()
   for (i in seq_along(vars)) {
-    assign(x = names(vars)[i], value = vars[[i]], envir = newEnv)
+    other.arg.match <- paste(vars[[i]]) %>%
+      sapply(function(x) { str_detect(x, paste(names(vars), collapse = "|")) }) %>%
+      any()
+    if (other.arg.match) {
+      var.value <- eval(vars[[i]])
+    } else {
+      var.value <- vars[[i]]
+    }
+    assign(x = names(vars)[i], value = var.value, envir = newEnv)
   }
   if (!is.null(save.env.dir)) {
     if (!dir.exists(save.env.dir)) {
