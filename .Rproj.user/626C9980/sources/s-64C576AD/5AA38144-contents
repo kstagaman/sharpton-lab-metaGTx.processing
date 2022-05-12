@@ -8,6 +8,7 @@
 
 
 generate.SGE.commmand <- function(c, ...) {
+  require(magrittr)
   vargs <- rlang::list2(...)
   vargs <- vargs[!sapply(vargs, is.null)]
   if (file.exists(c)) {

@@ -4,33 +4,43 @@
 #
 # make sure you have kneaddata and humann installed on your system, can be done with pip
 
+library(metaGTx.processing)
+library(magrittr)
+library(stringr)
+
 ###### MODIFY THESE VARIABLES AS NEEDED
 ###### VARIABLES YOU DON'T NEED/WANT AT ALL SET TO NULL
-interactive <- FALSE # FALSE = run command interactively, no swarm computing possible
-# TRUE = generate SGE_Batch or SGE_Array commands to submit manually
-job.queue <- "darwin@papilio" # for generating SGE commands; e.g. darwin@papilio
-jobs.dir <- "/home/micro/stagamak/Jobs" # directory to copy command files to for submission to the scheduler from the appropriate machine.
-max.cores <- 100 # integer
-max.concurrent.jobs <- 4 # integer; 1 = no swarm processing
-base.dir <- "/home/micro/stagamak/myData2/ZZ_oral_metagenomes/TEST" # path to working directory
-raw.seq.dir <- "/home/micro/stagamak/prod/prod_restructure/projects/stagamak/ZZ_oral_metagenomes/FastQs/Run2" # path to raw FASTQs
-link.dir <- file.path(base.dir, "FASTQs") # path to directory wherein you want to make symlinks to raw FASTQs
-store.dir <- "/home/micro/stagamak/prod/prod_restructure/projects/stagamak/ZZ_oral_metagenomes/TEST" # path to directory where all output will be stored (subdirectories will be created later)
-max.memory <- "50G" #optional, e.g. 50G, 100G
-qsub.options <- "'-m ae -M stagamak@oregonstate.edu'" # optional, e.g., get email at end of job with "'-m ae -M yourname@example.com'"; must be in double and single quotes like example
-temp.dir <- file.path(base.dir, "Results") # optional, path to a directory where output will first be written before moving to the permanent output directory
+###### see ?create.processing.env for help
+run.env <- create.processing.env(
+  interactive = FALSE,
+  job.queue = "darwin@papilio",
+  jobs.dir = "/home/micro/stagamak/Jobs",
+  max.cores = 100,
+  max.concurrent.jobs = 4,
+  base.dir = "/home/micro/stagamak/myData2/ZZ_oral_metagenomes/TEST",
+  raw.seq.dir = "/home/micro/stagamak/prod/prod_restructure/projects/stagamak/ZZ_oral_metagenomes/FastQs/Run2",
+  link.dir = file.path(base.dir, "FASTQs"),
+  store.dir = "/home/micro/stagamak/prod/prod_restructure/projects/stagamak/ZZ_oral_metagenomes/TEST",
+  temp.dir = file.path(base.dir, "Results"),
+  max.memory = "50G",
+  qsub.options = "'-m ae -M stagamak@oregonstate.edu'",
+  knead.host.db = "/nfs3/Sharpton_Lab/public_databases/Homo_sapiens_hg37_and_human_contamination_Bowtie2_v0.1/hg37dec_v0.1",
+  save.env.dir = "Run_envs"
+)
+# Alternatively
+# run.env <- readRDS("PATH/TO/SAVED/ENVIRONMENT")
 
 ###### THESE VARIABLES INHERIT FROM ABOVE
-concurrent.jobs <- ifelse(interactive, 1, max.concurrent.jobs)
-cores.per.job <- floor(max.cores / concurrent.jobs)
-for (dir in c(link.dir, temp.dir, store.dir)) {
+concurrent.jobs <- ifelse(run.env$interactive, 1, run.env$max.concurrent.jobs)
+cores.per.job <- floor(run.env$max.cores / concurrent.jobs)
+for (dir in c(run.env$link.dir, run.env$temp.dir, run.env$store.dir)) {
   if (!dir.exists(dir)) { dir.create(dir) }
 }
 
 ###### BEGIN PROCESSING
-setwd(link.dir)
+setwd(run.env$link.dir)
 symlinkFastqs(
-  fastq.dir = raw.seq.dir,
+  fastq.dir = run.env$raw.seq.dir,
   delim = "-",
   sample.field = 2,
   pattern = "lane1-s13[0123]"
@@ -38,20 +48,19 @@ symlinkFastqs(
 setwd(base.dir)
 
 ###### KNEADDATA
-knead.host.db <- "/nfs3/Sharpton_Lab/public_databases/Homo_sapiens_hg37_and_human_contamination_Bowtie2_v0.1/hg37dec_v0.1" # path to host genome database
-knead.output <- file.path(store.dir, "KneadData_output") # path to store QC'd sequences
-knead.other <- file.path(store.dir, "KneadData_other") # path for other kneaddata output files
-knead.array.file <- file.path(jobs.dir, "kneaddata_array_commands.txt")
+knead.output <- file.path(run.env$store.dir, "KneadData_output") # path to store QC'd sequences
+knead.other <- file.path(run.env$store.dir, "KneadData_other") # path for other kneaddata output files
+knead.array.file <- file.path(run.env$jobs.dir, "kneaddata_array_commands.txt")
 for (dir in c(knead.output, knead.other)) {
   if (!dir.exists(dir)) { dir.create(dir) }
 }
 commands <- generate.full.commands(
   tool = "kneaddata",
   paired = TRUE,
-  input.dir = link.dir,
-  output.dir = store.dir,
-  tmp.dir = temp.dir,
-  reference.db = knead.host.db,
+  input.dir = run.env$link.dir,
+  output.dir = run.env$store.dir,
+  tmp.dir = run.env$temp.dir,
+  reference.db = run.env$knead.host.db,
   threads = cores.per.job,
   zip.output = TRUE,
   split = "--",
@@ -59,37 +68,32 @@ commands <- generate.full.commands(
   write.to = NULL
 )
 head(commands) # inspect commands for accuracy
-if (interactive) {
+if (run.env$interactive) {
   execute.commands(commands)
 } else {
   generate.SGE.commmand(
     c = knead.array.file,
-    q = job.queue,
+    q = run.env$job.queue,
     P = cores.per.job,
     b = concurrent.jobs,
-    f = max.memory,
-    qsub_options = qsub.options
+    f = run.env$max.memory,
+    qsub_options = run.env$qsub.options
   )
   ## Submit job with printed command from appropriate machine
 }
-
-setwd(store.dir)
-for (file in list.files(pattern = "_paired_[12].fastq.gz")) {
-  copy.res <- file.copy(from = file, to = knead.output) %>% try()
-  if (!{"try-error" %in% class(copy.res)}) {
-    file.remove(file)
-  }
-}
-for (file in list.files(pattern = "\\.gz$")) {
-  copy.res <- file.copy(from = file, to = knead.other) %>% try()
-  if (!{"try-error" %in% class(copy.res)}) {
-    file.remove(file)
-  }
-}
+move.files(
+  move.from = run.env$store.dir,
+  move.to = knead.output,
+  match.pattern = "_paired_[12].fastq.gz"
+  )
+move.files(
+  move.from = run.env$store.dir,
+  move.to = knead.other,
+  match.pattern = "\\.gz$"
+)
 
 ###### HUMANN
-
-setwd(link.dir)
+setwd(run.env$link.dir)
 file.remove(list.files())
 symlinkFastqs(
   fastq.dir = knead.output,
@@ -97,10 +101,10 @@ symlinkFastqs(
   sample.field = 1,
   pattern = "_1.fastq.gz"
 )
-setwd(base.dir)
+setwd(run.env$base.dir)
 
-humann.output <- file.path(store.dir, "Humann_output")
-humann.array.file <- "humann_array_commands.txt"
+humann.output <- file.path(run.env$store.dir, "Humann_output")
+humann.array.file <- file.path(run.env$jobs.dir, "humann_array_commands.txt")
 
 if (!dir.exists(humann.output)) { dir.create(humann.output) }
 
@@ -110,45 +114,26 @@ if (!dir.exists(humann.output)) { dir.create(humann.output) }
 commands <- generate.full.commands(
   tool = "humann",
   paired = FALSE,
-  input.dir = link.dir,
+  input.dir = run.env$link.dir,
   output.dir = humann.output,
-  tmp.dir = temp.dir,
+  tmp.dir = run.env$temp.dir,
   threads = cores.per.job,
   write.to = humann.array.file
 )
 head(commands) # inspect commands for accuracy
-if (interactive) {
+if (run.env$interactive) {
   execute.commands(commands)
 } else {
   generate.SGE.commmand(
     c = humann.array.file,
-    q = job.queue,
+    q = run.env$job.queue,
     P = cores.per.job,
     b = concurrent.jobs,
-    f = max.memory,
-    qsub_options = qsub.options
+    f = run.env$max.memory,
+    qsub_options = run.env$qsub.options
   )
   ## Submit job with printed command from appropriate machine
 }
-
-
-generate_humann3_array_commands.sh \
--i $LINK_DIR \
--t $TMP_DIR \
--o $HUMANN_OUTPUT \
--q $JOB_QUEUE \
--p $JOB_PROCESSORS \
--c $CONCURRENT_JOBS \
--m $JOB_MEMORY \
--f $CMD_FILE \
--z
-cp $CMD_FILE ${HOME}/Jobs
-
-###### NEED TO ADD COMMANDS TO REMOVE *_humann_temp DIRS THAT ARE NOT MOVED TO STORAGE
-
-## Submit job with printed command from appropriate machine
-
-# ran some code in R to make tables of genefamily and pathways counts and coverages
 
 cd $HUMANN_OUTPUT
 

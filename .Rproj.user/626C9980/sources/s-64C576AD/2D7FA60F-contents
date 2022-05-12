@@ -24,6 +24,8 @@ generate.full.commands <- function(
     write.to = NULL,
     ...
 ) {
+  require(magrittr)
+  require(stringr)
   direct.out <- ifelse(is.null(tmp.dir), output.dir, tmp.dir)
 
   read1.files <- list.files(path = input.dir, pattern = "R1", full.names = T)

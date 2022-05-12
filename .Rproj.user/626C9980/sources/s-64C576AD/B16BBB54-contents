@@ -9,6 +9,8 @@
 #' @export
 
 tar.directory <- function(location, match.pattern = NULL) {
+  require(magrittr)
+  require(stringr)
   if (is.null(match.pattern)) {
     target.dir <- location
   } else {
@@ -40,6 +42,7 @@ gzip.files <- function(location, match.pattern = NULL) {
 #' @export
 
 move.files <- function(move.from, move.to, match.pattern = NULL) {
+  require(magrittr)
   if (is.null(match.pattern)) {
     copy.res <- file.copy(from = move.from, to = move.to) %>% try()
     if (!{"try-error" %in% class(copy.res)}) { file.remove(move.from) }
