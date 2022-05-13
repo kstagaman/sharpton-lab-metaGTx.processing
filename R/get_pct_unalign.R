@@ -1,6 +1,6 @@
 #' Get percent unaligned
 #'
-#' Functions for tarring, zipping, and moving files.
+#' This function extracts the humann log file from a tgz file and gets the percent unaligned sequences for both nucleotides and protein translations.
 #' @param match.pattern character; pattern to match desired files and directories. Default is "tgz$"
 #' @param location character; path to directory with files/directories you want to manipulate.
 #' @param out.file character; path and name of output file.
@@ -29,6 +29,12 @@ get.pct.unalign <- function(match.pattern = "tgz$", location, out.file) {
       )
     )
     file.remove(log.file)
+    to.remove <- str_split(dirname(log.file), "/") %>%
+      sapply(`[`, 1) %>%
+      list.dirs(recursive = TRUE)
+    for (i in rev(seq_along(to.remove))) {
+      file.remove(to.remove[i])
+    }
   }
   write.csv(output.df, file = out.file, row.names = F)
 }

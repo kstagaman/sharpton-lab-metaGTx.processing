@@ -6,8 +6,6 @@
 #' @param tmp.dir character; path to temporary directory for direct output. After files are written here, they will be moved to `output.dir`. Default is NULL.
 #' @param output.dir character; path to storage directory for output. If no `tmp.dir` output will be written here, otherwise it will be written to `tmp.dir` first and then moved here. Default is '.'.
 #' @param zip.output logical; whether to gzip final output (occurs before moving files if `tmp.dir` is set). Default is TRUE.
-#' @param split character; character(s) to split the sample name from the read ID in link name, e.g. sample01-R1.fastq.gz OR sample01--R1.fastq.gz. Default is '--'".
-#' @param sample.field integer; field (after cutting) in which to find sample names. Default is 1.
 #' @param write.to character; file name to write commands to, if NULL, only returns commands as character vector. Default is NULL
 #' @param ... other commands to pass to appropriate tool. Names must match short or long version found in that tool's help page.
 #' @seealso \code{\link{system}}, \code{\link{list2}}, \code{\link{generate.tool.command}}
@@ -19,8 +17,6 @@ generate.full.commands <- function(
     tmp.dir = NULL,
     output.dir = ".",
     zip.output = TRUE,
-    split = "--",
-    sample.field = 1,
     write.to = NULL,
     ...
 ) {
@@ -28,30 +24,22 @@ generate.full.commands <- function(
   require(stringr)
   direct.out <- ifelse(is.null(tmp.dir), output.dir, tmp.dir)
 
-  read1.files <- list.files(path = input.dir, pattern = "R1", full.names = T)
-  commands <- sapply(read1.files, function(inputR1) {
-    name <- basename(inputR1) %>%
-      str_split(split) %>%
-      sapply(`[`, sample.field)
-    if (paired) {
-      inputR2 <- list.files(input.dir, pattern = paste0(".*", name, ".*R2"), full.names = T)
-      if (length(inputR2) == 0) {
-        rlang::abort(
-          paste(
-            "Argument `paired' set to TRUE, but no R2 file that matches",
-            inputR1, "can be found in the input directory."
-          )
-        )
-      }
+  commands <- sapply(run.env$samples, function(sample) {
+    files <- list.files(path = input.dir, pattern = sample, full.names = T)
+    if (paired & length(files) != 2) {
+      rlang::abort(
+        paste("Argument `paired' set to TRUE, but only 1 file detected for sample", sample)
+      )
+    } else if (paired) {
       cmd <- generate.tool.commmand(
-        input = inputR1,
-        input = inputR2,
+        input = files[1],
+        input = files[2],
         output = direct.out,
         ...
       )
     } else {
       cmd <- generate.tool.commmand(
-        input = inputR1,
+        input = files[1],
         output = direct.out,
         ...
       )
@@ -61,15 +49,15 @@ generate.full.commands <- function(
         cmd,
         paste0(
           "Rscript -e \"metaGTx.processing::tgz.directories(location='", direct.out,
-          "', match.pattern='", name, "')\" ;"
+          "', match.pattern='", sample, "')\" ;"
         ),
         paste0(
           "Rscript -e \"metaGTx.processing::remove.directories(location='", direct.out,
-          "', match.pattern='", name, "')\" ;"
+          "', match.pattern='", sample, "')\" ;"
         ),
         paste0(
           "Rscript -e \"metaGTx.processing::gzip.files(location='", direct.out,
-          "', match.pattern='", name, "')\" ;"
+          "', match.pattern='", sample, "')\" ;"
         )
       )
     }
@@ -79,10 +67,11 @@ generate.full.commands <- function(
         paste0(
           "Rscript -e \"metaGTx.processing::move.files(move.from='", tmp.dir,
           "', move.to='", output.dir,
-          "', match.pattern='", name, "')\" ;"
+          "', match.pattern='", sample, "')\" ;"
         )
       )
     }
+    return(cmd)
   })
   if (!is.null(write.to)) {
     writeLines(text = commands, con = write.to)

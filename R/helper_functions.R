@@ -1,11 +1,18 @@
 #' Helper functions
 #'
 #' Functions for tarring, zipping, and moving files.
+#' @param tool character; name of the appropriate tool, e.g. "kneaddata" or "humann".
 #' @param match.pattern character; pattern to match desired files and directories. Default NULL
 #' @param location character; path to directory with files/directories you want to manipulate.
 #' @param move.from character; path to directory you want to move files/directories from.
 #' @param move.to character; path to directory you want to move files/directories to.
 #' @seealso \code{\link{system}}, \code{\link{generate.full.commands}}
+#' @export
+
+print.tool.help <- function(tool) {
+  system(paste(tool, "--help"))
+}
+
 #' @export
 
 tgz.directories <- function(location, match.pattern = NULL) {
@@ -14,17 +21,17 @@ tgz.directories <- function(location, match.pattern = NULL) {
   if (is.null(match.pattern)) {
     target.dir <- location
   } else {
-    target.dir <- list.dirs(path = location, full.names = TRUE) %>%
+    target.dirs <- list.dirs(path = location, full.names = TRUE) %>%
       str_subset(match.pattern)
   }
-  if (length(target.dir) > 1) {
-    rlang::abort(
-      paste0("Pattern '", match.pattern, "' matches more than one directory")
-    )
+  if (length(target.dirs) > 1) {
+    for (target.dir in target.dirs) {
+      tar(tarfile = paste0(target.dir, ".tgz"), files = target.dir, compression = "gzip")
+    }
   } else if (length(target.dir) == 0) {
     rlang::inform("No directories detected, nothing done.")
   } else {
-    tar(tarfile = paste0(target.dir, ".tgz"), files = target.dir, compression = "gzip")
+    tar(tarfile = paste0(target.dirs, ".tgz"), files = target.dirs, compression = "gzip")
   }
 }
 
@@ -39,7 +46,7 @@ remove.directories <- function(location, match.pattern = NULL) {
     target.dirs <- list.dirs(path = location, full.names = TRUE) %>%
       str_subset(match.pattern)
   }
-  if (length(target.dir) == 0) {
+  if (length(target.dirs) == 0) {
     rlang::inform("No directories detected, nothing done.")
   } else {
     for (target.dir in target.dirs) {
@@ -55,6 +62,16 @@ gzip.files <- function(location, match.pattern = NULL) {
   files <- list.files(path = location, pattern = match.pattern, full.names = T)
   for (file in files) {
     cmd <- paste("gzip -v", file)
+    system(cmd)
+  }
+}
+
+#' @export
+
+gunzip.files <- function(location, match.pattern = NULL) {
+  files <- list.files(path = location, pattern = match.pattern, full.names = T)
+  for (file in files) {
+    cmd <- paste("gunzip -v", file)
     system(cmd)
   }
 }

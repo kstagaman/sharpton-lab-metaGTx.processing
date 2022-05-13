@@ -14,7 +14,7 @@ get.pct.unalign(match.pattern = "tgz$", location, out.file)
 \item{out.file}{character; path and name of output file.}
 }
 \description{
-Functions for tarring, zipping, and moving files.
+This function extracts the humann log file from a tgz file and gets the percent unaligned sequences for both nucleotides and protein translations.
 }
 \seealso{
 \code{\link{system}}, \code{\link{generate.full.commands}}

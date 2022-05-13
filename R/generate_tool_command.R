@@ -6,7 +6,6 @@
 #'@seealso \code{\link{system}}, \code{\link{list2}}
 #'@export
 
-
 generate.tool.commmand <- function(tool, ...) {
   require(magrittr)
   require(stringr)
@@ -15,7 +14,7 @@ generate.tool.commmand <- function(tool, ...) {
   cmd.base <- tool
   cmd.args <- sapply(seq_along(vargs), function(arg) {
     arg.name <- names(vargs)[[arg]]
-    arg.val <- vargs[[arg]]
+    arg.val <- ifelse(vargs[[arg]] == "flag", "", vargs[[arg]])
     dashes <- ifelse(nchar(arg.name) > 1, 2, 1)
     paste0(
       paste(rep("-", dashes), collapse = ""),

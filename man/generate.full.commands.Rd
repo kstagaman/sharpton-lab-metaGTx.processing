@@ -10,8 +10,6 @@ generate.full.commands(
   tmp.dir = NULL,
   output.dir = ".",
   zip.output = TRUE,
-  split = "--",
-  sample.field = 1,
   write.to = NULL,
   ...
 )
@@ -26,10 +24,6 @@ generate.full.commands(
 \item{output.dir}{character; path to storage directory for output. If no \code{tmp.dir} output will be written here, otherwise it will be written to \code{tmp.dir} first and then moved here. Default is '.'.}
 
 \item{zip.output}{logical; whether to gzip final output (occurs before moving files if \code{tmp.dir} is set). Default is TRUE.}
-
-\item{split}{character; character(s) to split the sample name from the read ID in link name, e.g. sample01-R1.fastq.gz OR sample01--R1.fastq.gz. Default is '--'".}
-
-\item{sample.field}{integer; field (after cutting) in which to find sample names. Default is 1.}
 
 \item{write.to}{character; file name to write commands to, if NULL, only returns commands as character vector. Default is NULL}
 

@@ -1,6 +1,6 @@
 #' Create processing environment
 #'
-#' This function creates and returns an new environment to store all user-set variables with the option to save as an RDS file for easy reading-in to a future session.
+#' This function creates a new environment called `run.env` to store all user-set variables with the option to save as an RDA file for easy reading-in to a future session.
 #' @param base.dir character; path to working directory. It is helpful to make this explicit (rather than using '.') for generating SGE_Array commands.
 #' @param raw.seq.dir character; path to raw FASTQs directory.
 #' @param interactive logical; TRUE = run command interactively, no swarm computing possible, FALSE = generate SGE_Batch or SGE_Array commands to submit manually. Default is FALSE
@@ -18,6 +18,9 @@
 #' @seealso \code{\link{system}}, \code{\link{generate.tool.command}}
 #' @export
 
+run.env <- new.env()
+
+#' @export
 
 create.processing.env <- function(
     base.dir,
@@ -38,7 +41,7 @@ create.processing.env <- function(
   require(magrittr)
   require(stringr)
   vars <- as.list(rlang::call_match(defaults = TRUE))[-1]
-  newEnv <- new.env()
+  # print(run.env)
   for (i in seq_along(vars)) {
     other.arg.match <- paste(vars[[i]]) %>%
       sapply(function(x) { str_detect(x, paste(names(vars), collapse = "|")) }) %>%
@@ -48,7 +51,7 @@ create.processing.env <- function(
     } else {
       var.value <- vars[[i]]
     }
-    assign(x = names(vars)[i], value = var.value, envir = newEnv)
+    assign(x = names(vars)[i], value = var.value, envir = run.env)
   }
   if (!is.null(save.env.dir)) {
     if (!dir.exists(save.env.dir)) {
@@ -57,13 +60,12 @@ create.processing.env <- function(
     date.time <- Sys.time() %>%
       str_replace_all(" ", "_") %>%
       str_replace_all(":", "-")
-    saveRDS(
-      newEnv,
+    save(
+      run.env,
       file = file.path(
         save.env.dir,
-        paste0("metaGTx_processing_environment_", date.time, ".rds")
-        )
+        paste0("metaGTx_processing_environment_", date.time, ".rda")
       )
+    )
   }
-  return(newEnv)
 }
