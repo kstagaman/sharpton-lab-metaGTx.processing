@@ -4,7 +4,7 @@
 \alias{get.pct.unalign}
 \title{Get percent unaligned}
 \usage{
-get.pct.unalign(match.pattern = "tgz$", location, out.file)
+get.pct.unalign(match.pattern = "tgz$", location, out.file, n.cores = 1)
 }
 \arguments{
 \item{match.pattern}{character; pattern to match desired files and directories. Default is "tgz$"}
@@ -12,6 +12,8 @@ get.pct.unalign(match.pattern = "tgz$", location, out.file)
 \item{location}{character; path to directory with files/directories you want to manipulate.}
 
 \item{out.file}{character; path and name of output file.}
+
+\item{n.cores}{integer; if 1, will run serially, otherwise will extract in parallel utilzing up to the number of cores specified. Default is 1.}
 }
 \description{
 This function extracts the humann log file from a tgz file and gets the percent unaligned sequences for both nucleotides and protein translations.

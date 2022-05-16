@@ -13,15 +13,15 @@
 \usage{
 show.tool.help(tool)
 
-tgz.directories(location, match.pattern = NULL)
+tgz.directories(location, match.pattern = NULL, n.cores = 1)
 
-remove.directories(location, match.pattern = NULL)
+remove.directories(location, match.pattern = NULL, n.cores = 1)
 
-gzip.files(location, match.pattern = NULL)
+gzip.files(location, match.pattern = NULL, n.cores = 1)
 
-gunzip.files(location, match.pattern = NULL)
+gunzip.files(location, match.pattern = NULL, n.cores = 1)
 
-move.files(move.from, move.to, match.pattern = NULL)
+move.files(move.from, move.to, match.pattern = NULL, n.cores = 1)
 }
 \arguments{
 \item{tool}{character; name of the appropriate tool, e.g. "kneaddata" or "humann".}
@@ -29,6 +29,8 @@ move.files(move.from, move.to, match.pattern = NULL)
 \item{location}{character; path to directory with files/directories you want to manipulate.}
 
 \item{match.pattern}{character; pattern to match desired files and directories. Default NULL}
+
+\item{n.cores}{integer; if 1, will run serially, otherwise will extract in parallel utilzing up to the number of cores specified. Default is 1.}
 
 \item{move.from}{character; path to directory you want to move files/directories from.}
 

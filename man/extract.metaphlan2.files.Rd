@@ -4,7 +4,12 @@
 \alias{extract.metaphlan2.files}
 \title{Extract metaphlan2 results}
 \usage{
-extract.metaphlan2.files(match.pattern = "tgz$", location, move.to)
+extract.metaphlan2.files(
+  match.pattern = "tgz$",
+  location,
+  move.to,
+  n.cores = 1
+)
 }
 \arguments{
 \item{match.pattern}{character; pattern to match desired files and directories. Default is "tgz$"}
@@ -12,6 +17,8 @@ extract.metaphlan2.files(match.pattern = "tgz$", location, move.to)
 \item{location}{character; path to directory with files/directories you want to manipulate.}
 
 \item{move.to}{character; path to which to move extracted file.}
+
+\item{n.cores}{integer; if 1, will run serially, otherwise will extract in parallel utilzing up to the number of cores specified. Default is 1.}
 }
 \description{
 This function extracts the humann metaphlan2 bug list file from a tgz file
