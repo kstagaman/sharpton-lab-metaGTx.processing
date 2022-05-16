@@ -2,7 +2,7 @@
 #' @title Create processing environment
 #' @description This function creates a new environment called `run.env` to store all user-set variables with the option to save as an RDA file for easy reading-in to a future session.
 #' @param base.dir character; path to working directory. It is helpful to make this explicit (rather than using '.') for generating SGE_Array commands.
-#' @param raw.seq.dir character; path to raw FASTQs directory.
+#' @param raw.seq.dirs character; path to raw FASTQs directory **or** a *named* vector of paths to raw FASTQs directories. If a vector, `symlink.raw.fastqs` will preppend name of path to sample names to keep them distinct.
 #' @param interactive logical; TRUE = run command interactively, no swarm computing possible, FALSE = generate SGE_Batch or SGE_Array commands to submit manually. Default is FALSE
 #' @param job.queue character; the queue to that jobs will be sent to, for generating SGE commands. Default is NULL.
 #' @param jobs.dir character; path to write command files to for submission to the scheduler from the appropriate machine, e.g., "/home/micro/stagamak/Jobs". Default is ".".
@@ -15,7 +15,7 @@
 #' @param qsub.options character; further qsub arguments you want included in the SGE_Batch or SGE_Array commands, e.g., get email at end of job with "'-m ae -M yourname@example.com'". This argument must be in double and single quotes like example to be parsed correctly. Setting to NULL means this parameter i snot specified in the command. Default is NULL.
 #' @param save.env.dir character; if not NULL, will create and save this environment in the provided directory (if directory does not already exist, it will be created in `base.dir`) with the date and time of creation in the file name. Default is NULL.
 #' @param ... additional variables you want to set here
-#' @seealso \code{\link{assign}}, \code{\link{new.env}}, \code{\link{call_match}}
+#' @seealso \code{\link{assign}}, \code{\link{new.env}}, \code{\link{call_match}}, \code{\link{symlink.raw.fastqs}}
 #' @export
 
 run.env <- new.env()
@@ -24,7 +24,7 @@ run.env <- new.env()
 
 create.processing.env <- function(
     base.dir,
-    raw.seq.dir,
+    raw.seq.dirs,
     interactive = FALSE,
     job.queue = NULL,
     jobs.dir = ".",

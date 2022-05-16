@@ -1,7 +1,7 @@
 #' @name symlink.raw.fastqs
 #' @title Create symlinks to fastq(.gz) files
 #' @description This function creates symlinks in the current directory to fastq OR fastq.gz files in the provided directory.
-#' @param fastq.dir character; path to directory containing raw FASTQ files.
+#' @param fastq.dirs character; path to raw FASTQs directory **or** a *named* vector of paths to raw FASTQs directories. If a vector, function will preppend name of path to sample names to keep them distinct.
 #' @param delim character; delimiter for finding sample names in fastq file names.
 #' @param sample.field integer; field (after cutting) in which to find sample names.
 #' @param pattern character; matching pattern for files you want to link. Default is 'lane.*fastq\\.gz'.
@@ -11,7 +11,7 @@
 #' @export
 
 symlink.raw.fastqs <- function(
-    fastq.dir,
+    fastq.dirs,
     delim,
     sample.field,
     pattern = "lane.*fastq\\.gz",
@@ -27,28 +27,34 @@ symlink.raw.fastqs <- function(
   } else {
     samples <- NULL
   }
-  for (fastq in list.files(path = fastq.dir, pattern = pattern, full.names = T)) {
-    name = basename(fastq) %>%
-      stringr::str_split(pattern = delim) %>%
-      sapply(`[`, sample.field)
-    samples <- c(samples, name)
+  if (length(fastq.dirs) > 1 & is.null(names(fastq.dirs))) {
+    rlang::abort("More than one fastq directory is supplied, but the vector is unnamed. Please supply names.")
+  }
+  for (i in seq_along(fastq.dirs)) {
+    for (fastq in list.files(path = fastq.dirs[i], pattern = pattern, full.names = T)) {
+      base.name <- basename(fastq) %>%
+        stringr::str_split(pattern = delim) %>%
+        sapply(`[`, sample.field)
+      name <- ifelse(length(fastq.dirs) > 1, paste0(names(fastq.dirs)[i], "_", base.name), base.name)
+      samples <- c(samples, name)
 
-    if (!is.null(replacements)) {
-      to.replace <- replacements$to.replace
-      replace.by <- replacements$replace.by
-      if (length(to.replace) != length(replace.by) & length(replace.by) != 1) {
-        rlang::abort("The number of patterns to be replaced should be equal to the number of replacements, or the number of replacements should equal 1.")
-      } else {
-        for (i in 1:length(to.replace)) {
-          j <- ifelse(length(replace.by) == 1, 1, i)
-          name <- str_replace_all(name, to.replace[i], replace.by[j])
+      if (!is.null(replacements)) {
+        to.replace <- replacements$to.replace
+        replace.by <- replacements$replace.by
+        if (length(to.replace) != length(replace.by) & length(replace.by) != 1) {
+          rlang::abort("The number of patterns to be replaced should be equal to the number of replacements, or the number of replacements should equal 1.")
+        } else {
+          for (i in 1:length(to.replace)) {
+            j <- ifelse(length(replace.by) == 1, 1, i)
+            name <- str_replace_all(name, to.replace[i], replace.by[j])
+          }
         }
       }
+      read <- str_extract(fastq, "R[12]")
+      link.name <- paste0(name, split, read, ".fastq.gz")
+      cmd <- paste("ln -sv", fastq, link.name)
+      system(cmd)
     }
-    read <- str_extract(fastq, "R[12]")
-    link.name <- paste0(name, split, read, ".fastq.gz")
-    cmd <- paste("ln -sv", fastq, link.name)
-    system(cmd)
   }
   # print(samples)
   assign(x = "samples", value = sort(unique(samples)), envir = run.env)

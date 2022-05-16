@@ -14,7 +14,7 @@ run.env
 \arguments{
 \item{base.dir}{character; path to working directory. It is helpful to make this explicit (rather than using '.') for generating SGE_Array commands.}
 
-\item{raw.seq.dir}{character; path to raw FASTQs directory.}
+\item{raw.seq.dirs}{character; path to raw FASTQs directory \strong{or} a \emph{named} vector of paths to raw FASTQs directories. If a vector, \code{symlink.raw.fastqs} will preppend name of path to sample names to keep them distinct.}
 
 \item{interactive}{logical; TRUE = run command interactively, no swarm computing possible, FALSE = generate SGE_Batch or SGE_Array commands to submit manually. Default is FALSE}
 
@@ -44,6 +44,6 @@ run.env
 This function creates a new environment called \code{run.env} to store all user-set variables with the option to save as an RDA file for easy reading-in to a future session.
 }
 \seealso{
-\code{\link{assign}}, \code{\link{new.env}}, \code{\link{call_match}}
+\code{\link{assign}}, \code{\link{new.env}}, \code{\link{call_match}}, \code{\link{symlink.raw.fastqs}}
 }
 \keyword{datasets}

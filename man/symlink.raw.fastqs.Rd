@@ -5,7 +5,7 @@
 \title{Create symlinks to fastq(.gz) files}
 \usage{
 symlink.raw.fastqs(
-  fastq.dir,
+  fastq.dirs,
   delim,
   sample.field,
   pattern = "lane.*fastq\\\\.gz",
@@ -14,7 +14,7 @@ symlink.raw.fastqs(
 )
 }
 \arguments{
-\item{fastq.dir}{character; path to directory containing raw FASTQ files.}
+\item{fastq.dirs}{character; path to raw FASTQs directory \strong{or} a \emph{named} vector of paths to raw FASTQs directories. If a vector, function will preppend name of path to sample names to keep them distinct.}
 
 \item{delim}{character; delimiter for finding sample names in fastq file names.}
 
