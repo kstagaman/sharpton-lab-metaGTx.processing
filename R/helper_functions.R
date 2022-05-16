@@ -17,7 +17,7 @@
 #' @rdname helper_functions
 #' @export
 
-print.tool.help <- function(tool) {
+show.tool.help <- function(tool) {
   system(paste(tool, "--help"))
 }
 

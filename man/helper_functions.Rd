@@ -2,6 +2,7 @@
 % Please edit documentation in R/helper_functions.R
 \name{helper_functions}
 \alias{helper_functions}
+\alias{show.tool.help}
 \alias{print.tool.help}
 \alias{tgz.directories}
 \alias{remove.directories}
@@ -10,7 +11,7 @@
 \alias{move.files}
 \title{Helper functions}
 \usage{
-\method{print}{tool.help}(tool)
+show.tool.help(tool)
 
 tgz.directories(location, match.pattern = NULL)
 
