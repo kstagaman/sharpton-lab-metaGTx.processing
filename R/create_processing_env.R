@@ -46,7 +46,7 @@ create.processing.env <- function(
     other.arg.match <- paste(vars[[i]]) %>%
       sapply(function(x) { str_detect(x, paste(names(vars), collapse = "|")) }) %>%
       any()
-    if (other.arg.match) {
+    if (other.arg.match | is.call(vars[[i]])) {
       var.value <- eval(vars[[i]])
     } else {
       var.value <- vars[[i]]
