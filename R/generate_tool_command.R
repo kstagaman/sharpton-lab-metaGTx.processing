@@ -6,7 +6,7 @@
 #'@seealso \code{\link{system}}, \code{\link{list2}}
 #'@export
 
-generate.tool.commmand <- function(tool, ...) {
+generate.tool.command <- function(tool, ...) {
   require(magrittr)
   require(stringr)
   vargs <- rlang::list2(...)
