@@ -1,10 +1,9 @@
-#' Get percent unaligned
-#'
-#' This function extracts the humann log file from a tgz file and gets the percent unaligned sequences for both nucleotides and protein translations.
+#' @name get.pct.unalign
+#' @title Get percent unaligned
+#' @description This function extracts the humann log file from a tgz file and gets the percent unaligned sequences for both nucleotides and protein translations.
 #' @param match.pattern character; pattern to match desired files and directories. Default is "tgz$"
 #' @param location character; path to directory with files/directories you want to manipulate.
 #' @param out.file character; path and name of output file.
-#' @seealso \code{\link{system}}, \code{\link{generate.full.commands}}
 #' @export
 
 get.pct.unalign <- function(match.pattern = "tgz$", location, out.file) {

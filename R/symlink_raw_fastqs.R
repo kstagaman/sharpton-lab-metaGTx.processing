@@ -1,6 +1,6 @@
-#' Create symlinks to fastq(.gz) files
-#'
-#' This function creates symlinks in the current directory to fastq OR fastq.gz files in the provided directory.
+#' @name symlink.raw.fastqs
+#' @title Create symlinks to fastq(.gz) files
+#' @description This function creates symlinks in the current directory to fastq OR fastq.gz files in the provided directory.
 #' @param fastq.dir character; path to directory containing raw FASTQ files.
 #' @param delim character; delimiter for finding sample names in fastq file names.
 #' @param sample.field integer; field (after cutting) in which to find sample names.

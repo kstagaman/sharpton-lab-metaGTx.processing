@@ -1,6 +1,6 @@
-#' Generate full commands
-#'
-#' This function generates a single-line tool command with the supplied parameters for each file in the supplied directory as well as appending other commands, such as gzipping and moving results files.
+#' @name generate.full.commands
+#' @title Generate full commands
+#' @description This function generates a single-line tool command with the supplied parameters for each file in the supplied directory as well as appending other commands, such as gzipping and moving results files.
 #' @param input.dir character; path to directory containing input files. Default is NULL.
 #' @param paired logical; are their paired R1 and R2 files that should be analyzed concurrently? Default is TRUE.
 #' @param tmp.dir character; path to temporary directory for direct output. After files are written here, they will be moved to `output.dir`. Default is NULL.

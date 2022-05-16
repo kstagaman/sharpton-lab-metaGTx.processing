@@ -1,9 +1,9 @@
-#' Generate SGE command
-#'
-#' This function generates a character string of a command for SGE_Batch or SGE_Array and its arguments.
+#' @name generate.SGE.commmand
+#' @title Generate SGE command
+#' @description This function generates a character string of a command for SGE_Batch or SGE_Array and its arguments.
 #' @param c character; a string containing the command you want to submit (SGE_Batch) OR a path and name to a file containg commands (SGE_Array).
 #' @param ... other commands to pass SGE_Batch/SGE_Array. Names must match short or long version found in that tool's help page.
-#' @seealso \code{\link{system}}, \code{\link{list2}}
+#' @seealso \code{\link{generate.full.commands}}
 #' @export
 
 

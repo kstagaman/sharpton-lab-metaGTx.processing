@@ -15,5 +15,5 @@ generate.SGE.commmand(c, ...)
 This function generates a character string of a command for SGE_Batch or SGE_Array and its arguments.
 }
 \seealso{
-\code{\link{system}}, \code{\link{list2}}
+\code{\link{generate.full.commands}}
 }

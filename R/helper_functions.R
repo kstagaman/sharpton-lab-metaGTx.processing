@@ -1,6 +1,6 @@
+#' @name helper.functions
 #' @title Helper functions
-#' @name helper_functions
-#' @note Functions for printing help, tarring, zipping, and moving files.
+#' @description Functions for printing help, tarring, zipping, and moving files.
 #' @aliases print.tool.help
 #' @aliases tgz.directories
 #' @aliases remove.directories
@@ -12,16 +12,16 @@
 #' @param location character; path to directory with files/directories you want to manipulate.
 #' @param move.from character; path to directory you want to move files/directories from.
 #' @param move.to character; path to directory you want to move files/directories to.
-#' @seealso \code{\link{system}}, \code{\link{generate.full.commands}}
+#' @seealso \code{\link{system}}, \code{\link{generate.full.commands}}, \code{\link{generate.tool.commands}}
 
-#' @rdname helper_functions
+#' @rdname helper.functions
 #' @export
 
 show.tool.help <- function(tool) {
   system(paste(tool, "--help"))
 }
 
-#' @rdname helper_functions
+#' @rdname helper.functions
 #' @export
 
 tgz.directories <- function(location, match.pattern = NULL) {
@@ -44,7 +44,7 @@ tgz.directories <- function(location, match.pattern = NULL) {
   }
 }
 
-#' @rdname helper_functions
+#' @rdname helper.functions
 #' @export
 
 remove.directories <- function(location, match.pattern = NULL) {
@@ -66,7 +66,7 @@ remove.directories <- function(location, match.pattern = NULL) {
   }
 }
 
-#' @rdname helper_functions
+#' @rdname helper.functions
 #' @export
 
 gzip.files <- function(location, match.pattern = NULL) {
@@ -77,7 +77,7 @@ gzip.files <- function(location, match.pattern = NULL) {
   }
 }
 
-#' @rdname helper_functions
+#' @rdname helper.functions
 #' @export
 
 gunzip.files <- function(location, match.pattern = NULL) {
@@ -88,7 +88,7 @@ gunzip.files <- function(location, match.pattern = NULL) {
   }
 }
 
-#' @rdname helper_functions
+#' @rdname helper.functions
 #' @export
 
 move.files <- function(move.from, move.to, match.pattern = NULL) {

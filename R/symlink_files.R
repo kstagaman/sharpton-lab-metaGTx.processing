@@ -1,6 +1,6 @@
-#' Create symlinks to files
-#'
-#' This function creates symlinks in the current directory to files in the provided directory.
+#' @name symlink.files
+#' @title Create symlinks to files
+#' @description This function creates symlinks in the current directory to files in the provided directory.
 #' @param file.dir character; path to directory containing files you want to link to.
 #' @param pattern character; matching pattern for files you want to link.
 #' @param replacements list; a named list of patterns and replacements for file names, e.g. =list(to.replace = c("A", "B"), replace.by = c("a", "b")). Default is NULL.

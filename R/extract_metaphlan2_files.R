@@ -1,10 +1,9 @@
-#' Extract metaphlan2 results
-#'
-#' This function extracts the humann metaphlan2 bug list file from a tgz file
+#' @name extract.metaphlan2.files
+#' @title Extract metaphlan2 results
+#' @description This function extracts the humann metaphlan2 bug list file from a tgz file
 #' @param match.pattern character; pattern to match desired files and directories. Default is "tgz$"
-#' @param location character; path to irectory with files/directories you want to manipulate.
+#' @param location character; path to directory with files/directories you want to manipulate.
 #' @param move.to character; path to which to move extracted file.
-#' @seealso \code{\link{system}}, \code{\link{generate.full.commands}}
 #' @export
 
 extract.metaphlan2.files <- function(match.pattern = "tgz$", location, move.to) {

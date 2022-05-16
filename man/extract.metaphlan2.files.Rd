@@ -9,13 +9,10 @@ extract.metaphlan2.files(match.pattern = "tgz$", location, move.to)
 \arguments{
 \item{match.pattern}{character; pattern to match desired files and directories. Default is "tgz$"}
 
-\item{location}{character; path to irectory with files/directories you want to manipulate.}
+\item{location}{character; path to directory with files/directories you want to manipulate.}
 
 \item{move.to}{character; path to which to move extracted file.}
 }
 \description{
 This function extracts the humann metaphlan2 bug list file from a tgz file
-}
-\seealso{
-\code{\link{system}}, \code{\link{generate.full.commands}}
 }

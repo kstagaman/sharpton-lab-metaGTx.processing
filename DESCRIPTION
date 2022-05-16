@@ -14,3 +14,5 @@ Depends:
   magrittr,
   rlang,
   stringr
+Suggests:
+  data.table
