@@ -1,7 +1,7 @@
 Package: metaGTx.processing
-Title: What the Package Does (One Line, Title Case)
+Title: Sharpton Lab Metagenomic & Metatranscriptomic Processing
 Version: 0.3
-Date: 2022-05-16
+Date: `Sys.Date`
 Authors@R: 
     person("Keaton", "Stagaman", , "kstagaman@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-2815-4530"))
