@@ -14,6 +14,7 @@
 #' @param max.memory character; maximum memory to set for jobs submitted to SGE_Batch or SGE_Array. Must take the form of e.g. "10G" or "50G" Setting to NULL means this parameter is not specified in the command. Default is NULL.
 #' @param qsub.options character; further qsub arguments you want included in the SGE_Batch or SGE_Array commands, e.g., get email at end of job with "'-m ae -M yourname@example.com'". This argument must be in double and single quotes like example to be parsed correctly. Setting to NULL means this parameter i snot specified in the command. Default is NULL.
 #' @param save.env.dir character; if not NULL, will create and save this environment in the provided directory (if directory does not already exist, it will be created in `base.dir`) with the date and time of creation in the file name. Default is NULL.
+#' @param samples character; a vector of sample names. Can be left NULL and `symlink.raw.fastqs` will grab sample names from the raw fastq file names. Default NULL.
 #' @param ... additional variables you want to set here
 #' @seealso \code{\link{assign}}, \code{\link{new.env}}, \code{\link{call_match}}, \code{\link{symlink.raw.fastqs}}
 #' @export
@@ -36,6 +37,7 @@ create.processing.env <- function(
     max.memory = NULL,
     qsub.options = NULL,
     save.env.dir = NULL,
+    samples = NULL,
     ...
 ) {
   require(magrittr)

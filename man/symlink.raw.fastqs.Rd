@@ -10,7 +10,8 @@ symlink.raw.fastqs(
   sample.field,
   pattern = "lane.*fastq\\\\.gz",
   split = "--",
-  replacements = NULL
+  replacements = NULL,
+  save.sample.names = TRUE
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ symlink.raw.fastqs(
 \item{split}{character; character(s) to split the sample name from the read ID in link name, e.g. sample01-R1.fastq.gz OR sample01--R1.fastq.gz. Default is '--'".}
 
 \item{replacements}{list; a named list of patterns and replacements for file names, e.g. =list(to.replace = c("A", "B"), replace.by = c("a", "b")). Default is NULL.}
+
+\item{save.sample.names}{logical, whether to grab sample names from file names (TRUE) let user supply sample names directly (FALSE). Default is TRUE.}
 }
 \description{
 This function creates symlinks in the current directory to fastq OR fastq.gz files in the provided directory.

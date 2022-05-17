@@ -7,6 +7,7 @@
 #' @param pattern character; matching pattern for files you want to link. Default is 'lane.*fastq\\.gz'.
 #' @param split character; character(s) to split the sample name from the read ID in link name, e.g. sample01-R1.fastq.gz OR sample01--R1.fastq.gz. Default is '--'".
 #' @param replacements list; a named list of patterns and replacements for file names, e.g. =list(to.replace = c("A", "B"), replace.by = c("a", "b")). Default is NULL.
+#' @param save.sample.names logical, whether to grab sample names from file names (TRUE) let user supply sample names directly (FALSE). Default is TRUE.
 #' @seealso \code{\link{system}}, \code{\link{str_split}}, \code{\link{list.files}}, \code{\link{create.processing.env}}
 #' @export
 
@@ -16,7 +17,8 @@ symlink.raw.fastqs <- function(
     sample.field,
     pattern = "lane.*fastq\\.gz",
     split = "--",
-    replacements = NULL
+    replacements = NULL,
+    save.sample.names = TRUE
 ) {
   require(magrittr)
   require(stringr)
@@ -24,8 +26,6 @@ symlink.raw.fastqs <- function(
     rlang::abort(
       "Object `run.env' does not exist, please run the function create_processing_env() first"
     )
-  } else {
-    run.env$samples <- NULL
   }
   if (length(fastq.dirs) > 1 & is.null(names(fastq.dirs))) {
     rlang::abort("More than one fastq directory is supplied, but the vector is unnamed. Please supply names.")

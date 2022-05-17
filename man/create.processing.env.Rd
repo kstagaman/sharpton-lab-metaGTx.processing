@@ -38,6 +38,8 @@ run.env
 
 \item{save.env.dir}{character; if not NULL, will create and save this environment in the provided directory (if directory does not already exist, it will be created in \code{base.dir}) with the date and time of creation in the file name. Default is NULL.}
 
+\item{samples}{character; a vector of sample names. Can be left NULL and \code{symlink.raw.fastqs} will grab sample names from the raw fastq file names. Default NULL.}
+
 \item{...}{additional variables you want to set here}
 }
 \description{
