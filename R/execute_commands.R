@@ -21,7 +21,6 @@ execute.commands <- function(commands, n.cores = 1) {
       rlang::abort(paste(cat(cl, sep = "\n")))
     }
     doParallel::registerDoParallel(cl, n.cores)
-    commands <- c("echo hello", "echo world")
     par.loop <- foreach::foreach(command = commands) %dopar% {
       system(command)
     } %>% try(silent = T)

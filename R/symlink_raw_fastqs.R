@@ -25,7 +25,7 @@ symlink.raw.fastqs <- function(
       "Object `run.env' does not exist, please run the function create_processing_env() first"
     )
   } else {
-    samples <- NULL
+    run.env$samples <- NULL
   }
   if (length(fastq.dirs) > 1 & is.null(names(fastq.dirs))) {
     rlang::abort("More than one fastq directory is supplied, but the vector is unnamed. Please supply names.")
@@ -36,7 +36,7 @@ symlink.raw.fastqs <- function(
         stringr::str_split(pattern = delim) %>%
         sapply(`[`, sample.field)
       name <- ifelse(length(fastq.dirs) > 1, paste0(names(fastq.dirs)[i], "_", base.name), base.name)
-      samples <- c(samples, name)
+      run.env$samples <- c(run.env$samples, name)
 
       if (!is.null(replacements)) {
         to.replace <- replacements$to.replace
@@ -57,5 +57,4 @@ symlink.raw.fastqs <- function(
     }
   }
   # print(samples)
-  assign(x = "samples", value = sort(unique(samples)), envir = run.env)
 }
