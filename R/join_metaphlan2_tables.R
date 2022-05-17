@@ -13,10 +13,12 @@ join.metaphlan2.tables <- function(match.pattern = "metaphlan_bugs_list", input.
   files <- list.files(path = input.dir, pattern = match.pattern, full.names = T)
   res.dt <- NULL
   for (file in files) {
-    file.name <- str_remove(basename(file), "metaphlan_bugs_list\\.tsv$")
+    file.name <- str_remove(basename(file), paste0(match.pattern, "\\.tsv$"))
     dt <- read.table(file = file, header = T, sep = "\t", skip = 3, comment.char = "") %>% as.data.table()
-    names(dt) <- str_remove_all(names(dt), "^X\\.")
+    names(dt) <- str_remove_all(names(dt), "^X\\.+")
     names(dt)[!str_detect(names(dt), "clade|id")] <- paste0(file.name, names(dt)[!str_detect(names(dt), "clade|id")])
+    ncbi.id.col <- names(dt)[str_detect(names(dt), "id")]
+    dt[, (ncbi.id.col) := as.character(.SD), .SDcols = ncbi.id.col]
     if (is.null(res.dt)) {
       res.dt <- dt
     } else {
@@ -24,5 +26,5 @@ join.metaphlan2.tables <- function(match.pattern = "metaphlan_bugs_list", input.
     }
   }
   write.table(x = res.dt, file = output.file, sep = "\t", row.names = F, na = "0", quote = F)
-  cat(paste("Taxonomy table created:", output.file))
+  cat(paste("Taxonomy table created:", output.file), sep = "\n")
 }

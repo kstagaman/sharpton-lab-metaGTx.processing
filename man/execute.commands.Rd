@@ -4,10 +4,12 @@
 \alias{execute.commands}
 \title{Execute commands}
 \usage{
-execute.commands(commands)
+execute.commands(commands, n.cores = 1)
 }
 \arguments{
 \item{commands}{character; vector of shell commands.}
+
+\item{n.cores}{integer; number of cores to utilize. 1 = serial processing; more than 1 = parallel processin. NOTE: setting n.cores > 1 in an already parallel computational context can cause issues. Default is 1.}
 }
 \description{
 This function takes a character vector of shell commands and uses \code{system} to execute them
