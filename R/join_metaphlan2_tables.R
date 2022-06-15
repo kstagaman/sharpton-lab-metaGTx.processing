@@ -18,7 +18,7 @@ join.metaphlan2.tables <- function(match.pattern = "metaphlan_bugs_list", input.
     names(dt) <- str_remove_all(names(dt), "^X\\.+")
     names(dt)[!str_detect(names(dt), "clade|id")] <- paste0(file.name, names(dt)[!str_detect(names(dt), "clade|id")])
     ncbi.id.col <- names(dt)[str_detect(names(dt), "id")]
-    dt[, (ncbi.id.col) := as.character(.SD), .SDcols = ncbi.id.col]
+    dt[[ncbi.id.col]] <- as.character(dt[[ncbi.id.col]])
     if (is.null(res.dt)) {
       res.dt <- dt
     } else {

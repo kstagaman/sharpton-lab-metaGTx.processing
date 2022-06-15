@@ -15,7 +15,7 @@ execute.commands <- function(commands, n.cores = 1) {
     require(doParallel)
     require(foreach)
     require(magrittr)
-    cl <- parallel::makeCluster(n.cores, type = "FORK") %>% try(silent = T)
+    cl <- parallel::makeCluster(n.cores, type = "FORK") %>% try(silent = T) ### add in while loop to create cls with fewere and fewer cores until it works, maybe with a prompt if it's really low
     if ("try-error" %in% class(cl)) {
       doParallel::stopImplicitCluster()
       rlang::abort(paste(cat(cl, sep = "\n")))
