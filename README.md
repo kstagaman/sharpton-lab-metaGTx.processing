@@ -7,3 +7,11 @@ Installation:
 ```
 devtools::install_github("kstagaman/sharpton-lab-metaGTx.processing")
 ```
+
+
+Getting Started:
+
+```
+library(metaGTx.processing)
+generate.template()
+```
