@@ -8,6 +8,7 @@
 #' file.show("metaGTx_processing.R")
 
 generate.template <- function(filename = "metaGTx_processing.R") {
-  if (!grepl("\\.R$", filename)) { filename <- paste0(filename, ".R")}
+  if (!grepl("\\.R$", filename)) { filename <- paste0(filename, ".R") }
+  data("template_code", package = "metaGTx.processing")
   writeLines(template.code, con = filename)
 }
