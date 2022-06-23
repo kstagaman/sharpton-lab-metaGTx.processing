@@ -31,14 +31,14 @@ generate.full.commands <- function(
         paste("Argument `paired' set to TRUE, but only 1 file detected for sample", sample)
       )
     } else if (paired) {
-      cmd <- generate.tool.commmand(
+      cmd <- generate.tool.command(
         input = files[1],
         input = files[2],
         output = direct.out,
         ...
       )
     } else {
-      cmd <- generate.tool.commmand(
+      cmd <- generate.tool.command(
         input = files[1],
         output = direct.out,
         ...

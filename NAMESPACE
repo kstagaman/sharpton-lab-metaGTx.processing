@@ -3,7 +3,7 @@
 export(create.processing.env)
 export(execute.commands)
 export(extract.metaphlan2.files)
-export(generate.SGE.commmand)
+export(generate.SGE.command)
 export(generate.full.commands)
 export(generate.template)
 export(generate.tool.command)

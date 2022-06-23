@@ -66,7 +66,7 @@ head(commands) # inspect commands for accuracy
 if (run.env$interactive) {
   execute.commands(commands)
 } else {
-  generate.SGE.commmand(
+  generate.SGE.command(
     c = knead.array.file,
     q = run.env$job.queue,
     P = cores.per.job,
@@ -118,7 +118,7 @@ head(commands) # inspect commands for accuracy
 if (run.env$interactive) {
   execute.commands(commands)
 } else {
-  generate.SGE.commmand(
+  generate.SGE.command(
     c = humann.array.file,
     q = run.env$job.queue,
     P = cores.per.job,
@@ -162,7 +162,7 @@ for (sample in run.env$samples) {
         basename(in.file), "(families|abundance)", paste0("\\1_", new.abund.type)
       )
     )
-    generate.tool.commmand(
+    generate.tool.command(
       tool = curr.tool,
       input = in.file,
       units = new.abund.type,
@@ -187,7 +187,7 @@ for (sample in run.env$samples) {
   genes.file <- str_subset(sample.files, pattern = "genefamilies")
   paths.file <- str_subset(sample.files, pattern = "coverage")
   out.file <- str_replace(genes.file, "genefamilies_relab", "unpacked_pathways_relab")
-  generate.tool.commmand(
+  generate.tool.command(
     tool = curr.tool,
     input.genes = genes.file,
     input.pathways = paths.file,

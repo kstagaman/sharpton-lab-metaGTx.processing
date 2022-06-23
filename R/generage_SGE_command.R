@@ -1,4 +1,4 @@
-#' @name generate.SGE.commmand
+#' @name generate.SGE.command
 #' @title Generate SGE command
 #' @description This function generates a character string of a command for SGE_Batch or SGE_Array and its arguments.
 #' @param c character; a string containing the command you want to submit (SGE_Batch) OR a path and name to a file containg commands (SGE_Array).
@@ -7,7 +7,7 @@
 #' @export
 
 
-generate.SGE.commmand <- function(c, ...) {
+generate.SGE.command <- function(c, ...) {
   require(magrittr)
   vargs <- rlang::list2(...)
   vargs <- vargs[!sapply(vargs, is.null)]
