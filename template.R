@@ -17,7 +17,7 @@ create.processing.env(
   max.cores = 50,
   max.concurrent.jobs = 5,
   base.dir = "PATH/TO/WORKING/DIRECTORY",
-  raw.seq.dir = "PATH/TO/RAW/SEQUENCES/DIRECTORY",
+  raw.seq.dirs = "PATH/TO/RAW/SEQUENCES/DIRECTORY",
   store.dir = "PATH/TO/FINAL/OUTPUT/DIRECTORY",
   link.dir = file.path(base.dir, "WorkingFiles"),
   temp.dir = file.path(base.dir, "Results"), # optional, a directory for writing immediate output that will then get, e.g. zipped and moved to the store.dir
@@ -38,10 +38,9 @@ for (dir in c(run.env$link.dir, run.env$temp.dir, run.env$store.dir)) {
 ###### BEGIN PROCESSING
 setwd(run.env$link.dir)
 symlink.raw.fastqs( # this function makes symlinks from raw fastq files into the link.dir and also sets sample names in run.env
-  fastq.dir = run.env$raw.seq.dir,
+  fastq.dirs = run.env$raw.seq.dirs,
   delim = ___, # get this from raw fastq file names
-  sample.field = ___, # get this from raw fastq file names
-  pattern = "lane1*fastq.gz"
+  sample.field = ___ # get this from raw fastq file names
 )
 setwd(run.env$base.dir)
 
