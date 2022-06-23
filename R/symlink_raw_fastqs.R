@@ -31,7 +31,11 @@ symlink.raw.fastqs <- function(
     rlang::abort("More than one fastq directory is supplied, but the vector is unnamed. Please supply names.")
   }
   for (i in seq_along(fastq.dirs)) {
-    for (fastq in list.files(path = fastq.dirs[i], pattern = pattern, full.names = T)) {
+    fastqs <- list.files(path = fastq.dirs[i], pattern = pattern, full.names = T)
+    if (length(fastqs) == 0) {
+      rlang::abort("No files in the supplied directory match the supplied pattern.")
+    }
+    for (fastq in fastqs) {
       base.name <- basename(fastq) %>%
         stringr::str_split(pattern = delim) %>%
         sapply(`[`, sample.field)
