@@ -56,7 +56,7 @@ create.processing.env <- function(
     assign(x = names(vars)[i], value = var.value, envir = run.env)
   }
   if (!is.null(save.env.dir)) {
-    if (!dir.exists(save.env.dir)) {
+    if (!dir.exists(file.path(base.dir, save.env.dir))) {
       dir.create(file.path(base.dir, save.env.dir))
     }
     date.time <- Sys.time() %>%
@@ -66,7 +66,7 @@ create.processing.env <- function(
       run.env,
       file = file.path(
         save.env.dir,
-        paste0("metaGTx_processing_environment_", date.time, ".rda")
+        paste0("metaGTx_processing_environment_", date.time, ".RData")
       )
     )
   }
