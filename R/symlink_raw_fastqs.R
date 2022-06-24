@@ -40,7 +40,7 @@ symlink.raw.fastqs <- function(
         stringr::str_split(pattern = delim) %>%
         sapply(`[`, sample.field)
       name <- ifelse(length(fastq.dirs) > 1, paste0(names(fastq.dirs)[i], "_", base.name), base.name)
-      run.env$samples <- c(run.env$samples, name)
+      run.env$samples <- unique(c(run.env$samples, name))
 
       if (!is.null(replacements)) {
         to.replace <- replacements$to.replace
