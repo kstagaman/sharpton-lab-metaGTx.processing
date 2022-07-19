@@ -9,6 +9,7 @@ generate.full.commands(
   paired = TRUE,
   tmp.dir = NULL,
   output.dir = ".",
+  src.tool.path = NULL,
   zip.output = TRUE,
   write.to = NULL,
   ...
@@ -22,6 +23,8 @@ generate.full.commands(
 \item{tmp.dir}{character; path to temporary directory for direct output. After files are written here, they will be moved to \code{output.dir}. Default is NULL.}
 
 \item{output.dir}{character; path to storage directory for output. If no \code{tmp.dir} output will be written here, otherwise it will be written to \code{tmp.dir} first and then moved here. Default is '.'.}
+
+\item{src.tool.path}{character; path to script for sourcing tool, if required by system, this will also append the command \verb{source <PATH> ; } to the full commands. NULL means this is not appended. Default is NULL.}
 
 \item{zip.output}{logical; whether to gzip final output (occurs before moving files if \code{tmp.dir} is set). Default is TRUE.}
 
