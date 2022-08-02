@@ -29,7 +29,7 @@ tgz.directories <- function(location, match.pattern = NULL, n.cores = 1) {
   require(magrittr)
   require(stringr)
   if (is.null(match.pattern)) {
-    target.dir <- location
+    target.dirs <- location
   } else {
     target.dirs <- list.dirs(path = location, full.names = TRUE) %>%
       str_subset(match.pattern)
@@ -52,7 +52,7 @@ tgz.directories <- function(location, match.pattern = NULL, n.cores = 1) {
         cat(par.loop, sep = "\n")
       }
     }
-  } else if (length(target.dir) == 0) {
+  } else if (length(target.dirs) == 0) {
     rlang::inform("No directories detected, nothing done.")
   } else {
     tar(tarfile = paste0(target.dirs, ".tgz"), files = target.dirs, compression = "gzip")
