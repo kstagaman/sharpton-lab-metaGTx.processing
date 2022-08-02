@@ -5,7 +5,7 @@
 #' @param paired logical; are their paired R1 and R2 files that should be analyzed concurrently? Default is TRUE.
 #' @param tmp.dir character; path to temporary directory for direct output. After files are written here, they will be moved to `output.dir`. Default is NULL.
 #' @param output.dir character; path to storage directory for output. If no `tmp.dir` output will be written here, otherwise it will be written to `tmp.dir` first and then moved here. Default is '.'.
-#' @param src.tool.path character; path to script for sourcing tool, if required by system, this will also append the command `source <PATH> ; ` to the full commands. NULL means this is not appended. Default is NULL.
+#' @param src.tool.path character; path to script for sourcing tool, if required by system, this will also append the command `source <PATH> ; ` to the full commands. NULL means this is not prepended. Default is NULL.
 #' @param zip.output logical; whether to gzip final output (occurs before moving files if `tmp.dir` is set). Default is TRUE.
 #' @param write.to character; file name to write commands to, if NULL, only returns commands as character vector. Default is NULL
 #' @param ... other commands to pass to appropriate tool. Names must match short or long version found in that tool's help page.
@@ -37,19 +37,15 @@ generate.full.commands <- function(
         input = files[1],
         input = files[2],
         output = direct.out,
+        tool.path = src.tool.path,
         ...
       )
     } else {
       cmd <- generate.tool.command(
         input = files[1],
         output = direct.out,
+        tool.path = src.tool.path
         ...
-      )
-    }
-    if (!is.null(src.tool.path)) {
-      cmd <- paste(
-        paste("source", src.tool.path, ";"),
-        cmd
       )
     }
     if (zip.output) {
