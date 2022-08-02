@@ -44,7 +44,7 @@ generate.full.commands <- function(
       cmd <- generate.tool.command(
         input = files[1],
         output = direct.out,
-        tool.path = src.tool.path
+        tool.path = src.tool.path,
         ...
       )
     }

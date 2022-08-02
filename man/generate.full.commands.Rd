@@ -24,7 +24,7 @@ generate.full.commands(
 
 \item{output.dir}{character; path to storage directory for output. If no \code{tmp.dir} output will be written here, otherwise it will be written to \code{tmp.dir} first and then moved here. Default is '.'.}
 
-\item{src.tool.path}{character; path to script for sourcing tool, if required by system, this will also append the command \verb{source <PATH> ; } to the full commands. NULL means this is not appended. Default is NULL.}
+\item{src.tool.path}{character; path to script for sourcing tool, if required by system, this will also append the command \verb{source <PATH> ; } to the full commands. NULL means this is not prepended. Default is NULL.}
 
 \item{zip.output}{logical; whether to gzip final output (occurs before moving files if \code{tmp.dir} is set). Default is TRUE.}
 

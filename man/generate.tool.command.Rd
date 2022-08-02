@@ -4,10 +4,12 @@
 \alias{generate.tool.command}
 \title{Generate tool command}
 \usage{
-generate.tool.command(tool, ...)
+generate.tool.command(tool, tool.path = NULL, ...)
 }
 \arguments{
 \item{tool}{character; name of the appropriate tool, e.g. "kneaddata" or "humann".}
+
+\item{tool.path}{character; path to script for sourcing tool, if required by system, this will also append the command \verb{source <PATH> ; } to the full commands. NULL means this is not prepended. Default is NULL.}
 
 \item{...}{other commands to pass to appropriate tool. Names must match short or long version found in that tool's help page.}
 }
