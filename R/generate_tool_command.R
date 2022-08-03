@@ -14,7 +14,7 @@ generate.tool.command <- function(tool, tool.path = NULL, ...) {
   vargs <- vargs[!sapply(vargs, is.null)]
   cmd.base <- tool
   if (!is.null(tool.path)) {
-    cmd.base <- paste(tool.path, cmd.base)
+    cmd.base <- paste("source", tool.path, cmd.base)
   }
   cmd.args <- sapply(seq_along(vargs), function(arg) {
     arg.name <- names(vargs)[[arg]]
