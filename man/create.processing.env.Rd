@@ -40,6 +40,8 @@ run.env
 
 \item{samples}{character; a vector of sample names. Can be left NULL and \code{symlink.raw.fastqs} will grab sample names from the raw fastq file names. Default NULL.}
 
+\item{r.path}{character; the path to the Rscript executables you want to use when generating commands. If NULL, will just include 'Rscript -e ...' in the commands, no specific path, which will call the Rscript first in your PATH. If not, NULL, will append that path to the Rscript command, e.g. 'PATH/TO/Rscript -e ...'}
+
 \item{...}{additional variables you want to set here}
 }
 \description{

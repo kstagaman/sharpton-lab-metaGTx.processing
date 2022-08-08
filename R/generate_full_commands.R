@@ -25,7 +25,11 @@ generate.full.commands <- function(
   require(magrittr)
   require(stringr)
   direct.out <- ifelse(is.null(tmp.dir), output.dir, tmp.dir)
-
+  if (is.null(run.env$r.path)) {
+    r.cmd <- "Rscript"
+  } else {
+    r.cmd <- file.path(run.env$r.path, "Rscript")
+  }
   commands <- sapply(run.env$samples, function(sample) {
     files <- list.files(path = input.dir, pattern = sample, full.names = T)
     if (paired & length(files) != 2) {
@@ -52,15 +56,15 @@ generate.full.commands <- function(
       cmd <- paste(
         cmd,
         paste0(
-          "Rscript -e \"metaGTx.processing::tgz.directories(location='", direct.out,
+          r.cmd," -e \"metaGTx.processing::tgz.directories(location='", direct.out,
           "', match.pattern='", sample, "')\" ;"
         ),
         paste0(
-          "Rscript -e \"metaGTx.processing::remove.directories(location='", direct.out,
+          r.cmd, " -e \"metaGTx.processing::remove.directories(location='", direct.out,
           "', match.pattern='", sample, "')\" ;"
         ),
         paste0(
-          "Rscript -e \"metaGTx.processing::gzip.files(location='", direct.out,
+          r.cmd, " -e \"metaGTx.processing::gzip.files(location='", direct.out,
           "', match.pattern='", sample, "')\" ;"
         )
       )
@@ -69,7 +73,7 @@ generate.full.commands <- function(
       cmd <- paste(
         cmd,
         paste0(
-          "Rscript -e \"metaGTx.processing::move.files(move.from='", tmp.dir,
+          r.cmd, " -e \"metaGTx.processing::move.files(move.from='", tmp.dir,
           "', move.to='", output.dir,
           "', match.pattern='", sample, "')\" ;"
         )
