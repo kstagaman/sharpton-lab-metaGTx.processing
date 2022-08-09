@@ -25,10 +25,10 @@ generate.full.commands <- function(
   require(magrittr)
   require(stringr)
   direct.out <- ifelse(is.null(tmp.dir), output.dir, tmp.dir)
-  if (is.null(run.env$r.path)) {
+  if (is.null(run.env$bin.path)) {
     r.cmd <- "Rscript"
   } else {
-    r.cmd <- file.path(run.env$r.path, "Rscript")
+    r.cmd <- file.path(run.env$bin.path, "Rscript")
   }
   commands <- sapply(run.env$samples, function(sample) {
     files <- list.files(path = input.dir, pattern = sample, full.names = T)

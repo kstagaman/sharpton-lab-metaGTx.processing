@@ -15,7 +15,7 @@
 #' @param qsub.options character; further qsub arguments you want included in the SGE_Batch or SGE_Array commands, e.g., get email at end of job with "'-m ae -M yourname@example.com'". This argument must be in double and single quotes like example to be parsed correctly. Setting to NULL means this parameter i snot specified in the command. Default is NULL.
 #' @param save.env.dir character; if not NULL, will create and save this environment in the provided directory (if directory does not already exist, it will be created in `base.dir`) with the date and time of creation in the file name. Default is NULL.
 #' @param samples character; a vector of sample names. Can be left NULL and `symlink.raw.fastqs` will grab sample names from the raw fastq file names. Default NULL.
-#' @param r.path character; the path to the Rscript executables you want to use when generating commands. If NULL, will just include 'Rscript -e ...' in the commands, no specific path, which will call the Rscript first in your PATH. If not, NULL, will append that path to the Rscript command, e.g. 'PATH/TO/Rscript -e ...'
+#' @param bin.path character; the path to the Rscript and other tool executables you want to use when generating commands. If NULL, will just include e.g. 'Rscript -e ...' or 'humann ...' in the commands, no specific path, which will call the Rscript first in your PATH. If not, NULL, will append that path to the tool command, e.g. 'PATH/TO/Rscript -e ...' or 'PATH/TO/humann ...'
 #' @param ... additional variables you want to set here
 #' @seealso \code{\link{assign}}, \code{\link{new.env}}, \code{\link{call_match}}, \code{\link{symlink.raw.fastqs}}
 #' @export
@@ -39,7 +39,7 @@ create.processing.env <- function(
     qsub.options = NULL,
     save.env.dir = NULL,
     samples = NULL,
-    r.path = NULL,
+    bin.path = NULL,
     ...
 ) {
   require(magrittr)

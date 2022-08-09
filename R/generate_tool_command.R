@@ -12,7 +12,11 @@ generate.tool.command <- function(tool, tool.path = NULL, ...) {
   require(stringr)
   vargs <- rlang::list2(...)
   vargs <- vargs[!sapply(vargs, is.null)]
-  cmd.base <- tool
+  if (is.null(run.env$bin.path)) {
+    cmd.base <- tool
+  } else {
+    cmb.base <- file.path(run.env$bin.path, tool)
+  }
   if (!is.null(tool.path)) {
     cmd.base <- paste("source", tool.path, cmd.base)
   }
@@ -25,7 +29,7 @@ generate.tool.command <- function(tool, tool.path = NULL, ...) {
       str_replace_all(arg.name, "\\.", "-"),
       " ",
       arg.val
-      ) %>% return()
+    ) %>% return()
   }) %>% paste(collapse = " ")
   paste(cmd.base, cmd.args, ";") %>% return()
 }
