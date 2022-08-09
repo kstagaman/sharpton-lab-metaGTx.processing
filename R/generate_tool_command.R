@@ -15,7 +15,7 @@ generate.tool.command <- function(tool, tool.path = NULL, ...) {
   if (is.null(run.env$bin.path)) {
     cmd.base <- tool
   } else {
-    cmb.base <- file.path(run.env$bin.path, tool)
+    cmd.base <- file.path(run.env$bin.path, tool)
   }
   if (!is.null(tool.path)) {
     cmd.base <- paste("source", tool.path, cmd.base)
