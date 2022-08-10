@@ -31,5 +31,5 @@ generate.tool.command <- function(tool, tool.path = NULL, ...) {
       arg.val
     ) %>% return()
   }) %>% paste(collapse = " ")
-  paste(cmd.base, cmd.args, ";") %>% return()
+  paste(cmd.base, cmd.args) %>% return()
 }

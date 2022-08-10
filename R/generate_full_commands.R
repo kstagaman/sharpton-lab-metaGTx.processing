@@ -55,23 +55,25 @@ generate.full.commands <- function(
     if (zip.output) {
       cmd <- paste(
         cmd,
+        "&&",
         paste0(
           r.cmd," -e \"metaGTx.processing::tgz.directories(location='", direct.out,
-          "', match.pattern='", sample, "')\" ;"
+          "', match.pattern='", sample, "')\" &&"
         ),
         paste0(
           r.cmd, " -e \"metaGTx.processing::remove.directories(location='", direct.out,
-          "', match.pattern='", sample, "')\" ;"
+          "', match.pattern='", sample, "')\" &&"
         ),
         paste0(
           r.cmd, " -e \"metaGTx.processing::gzip.files(location='", direct.out,
-          "', match.pattern='", sample, "')\" ;"
+          "', match.pattern='", sample, "')\" &&"
         )
       )
     }
     if (!is.null(tmp.dir)) {
       cmd <- paste(
         cmd,
+        "&&",
         paste0(
           r.cmd, " -e \"metaGTx.processing::move.files(move.from='", tmp.dir,
           "', move.to='", output.dir,

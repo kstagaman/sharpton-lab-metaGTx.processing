@@ -8,12 +8,14 @@
 #' @export
 
 get.pct.unalign <- function(match.pattern = "tgz$", location, out.file, n.cores = 1) {
+  require(stringr)
   if (n.cores == 1) {
     output.df <- data.frame()
     for (tgz in list.files(path = location, full.names = T, pattern = match.pattern)) {
       log.file <- untar(tarfile = tgz, list = T) %>%
         str_subset("log$")
       untar(tarfile = tgz, files = log.file)
+      log.file <- str_remove(log.file, "^/")
       lines <- readLines(log.file)
       nucl.unalign <- str_subset(lines, "Unaligned reads after nucleotide alignment") %>%
         str_extract("\\d+[\\d\\.]* \\%") %>%
@@ -50,6 +52,7 @@ get.pct.unalign <- function(match.pattern = "tgz$", location, out.file, n.cores 
       log.file <- untar(tarfile = tgz, list = T) %>%
         str_subset("log$")
       untar(tarfile = tgz, files = log.file)
+      log.file <- str_remove(log.file, "^/")
       lines <- readLines(log.file)
       nucl.unalign <- str_subset(lines, "Unaligned reads after nucleotide alignment") %>%
         str_extract("\\d+[\\d\\.]* \\%") %>%
