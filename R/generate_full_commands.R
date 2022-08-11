@@ -17,6 +17,7 @@ generate.full.commands <- function(
     paired = TRUE,
     tmp.dir = NULL,
     output.dir = ".",
+    prepend = NULL,
     src.tool.path = NULL,
     zip.output = TRUE,
     write.to = NULL,
@@ -32,56 +33,59 @@ generate.full.commands <- function(
   }
   commands <- sapply(run.env$samples, function(sample) {
     files <- list.files(path = input.dir, pattern = sample, full.names = T)
+    cmds <- prepend
     if (paired & length(files) != 2) {
       rlang::abort(
         paste("Argument `paired' set to TRUE, but only 1 file detected for sample", sample)
       )
     } else if (paired) {
-      cmd <- generate.tool.command(
+      cmds <- generate.tool.command(
         input = files[1],
         input = files[2],
         output = direct.out,
         tool.path = src.tool.path,
         ...
-      )
+      ) %>% c(cmds, .)
     } else {
-      cmd <- generate.tool.command(
+      cmds <- generate.tool.command(
         input = files[1],
         output = direct.out,
         tool.path = src.tool.path,
         ...
-      )
+      ) %>% c(cmds, .)
+    }
+    if (length(cmds) == 2) {
+      cmds <- paste(cmds, collapse = " ; ")
     }
     if (zip.output) {
-      cmd <- paste(
-        cmd,
-        "&&",
+      cmds <- c(
+        cmds,
         paste0(
           r.cmd," -e \"metaGTx.processing::tgz.directories(location='", direct.out,
-          "', match.pattern='", sample, "')\" &&"
+          "', match.pattern='", sample, "')\""
         ),
         paste0(
           r.cmd, " -e \"metaGTx.processing::remove.directories(location='", direct.out,
-          "', match.pattern='", sample, "')\" &&"
+          "', match.pattern='", sample, "')\""
         ),
         paste0(
           r.cmd, " -e \"metaGTx.processing::gzip.files(location='", direct.out,
-          "', match.pattern='", sample, "')\" &&"
+          "', match.pattern='", sample, "')\""
         )
       )
     }
     if (!is.null(tmp.dir)) {
-      cmd <- paste(
-        cmd,
-        "&&",
+      cmds <- c(
+        cmds,
         paste0(
           r.cmd, " -e \"metaGTx.processing::move.files(move.from='", tmp.dir,
           "', move.to='", output.dir,
-          "', match.pattern='", sample, "')\" ;"
+          "', match.pattern='", sample, "')\""
         )
       )
     }
-    return(cmd)
+    paste(cmds, collapse = " && ") %>%
+      return()
   })
   if (!is.null(write.to)) {
     writeLines(text = commands, con = write.to)
@@ -89,4 +93,3 @@ generate.full.commands <- function(
   }
   return(commands)
 }
-
