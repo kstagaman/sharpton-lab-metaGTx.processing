@@ -21,11 +21,16 @@ extract.metaphlan2.files <- function(match.pattern = "tgz$", location, move.to, 
       gzip.cmd <- paste("gzip -v", file.path(move.to, basename(metaphlan.file)))
       system(gzip.cmd)
       file.remove(metaphlan.untarred)
-      to.remove <- str_split(dirname(metaphlan.untarred), "/") %>%
-        sapply(`[`, 1) %>%
-        list.dirs(recursive = TRUE)
-      for (i in rev(seq_along(to.remove))) {
-        file.remove(to.remove[i])
+      to.remove <- dirname(metaphlan.untarred)
+      base.dir <- ifelse(
+        str_detect(run.env$base.dir, "/$"),
+        run.env$base.dir,
+        paste0(run.env$base.dir, "/")
+      )
+      while(to.remove != base.dir) {
+        cat(paste("Removing", to.remove), sep = "\n")
+        file.remove(to.remove)
+        to.remove <- str_remove(to.remove, "/[\\w-]+$")
       }
     }
   } else {
@@ -33,7 +38,9 @@ extract.metaphlan2.files <- function(match.pattern = "tgz$", location, move.to, 
     require(foreach)
     cl <- parallel::makeCluster(n.cores, type = "FORK")
     doParallel::registerDoParallel(cl, n.cores)
-    par.loop <- foreach::foreach(tgz = list.files(path = location, full.names = T, pattern = match.pattern)) %dopar% {
+    par.loop <- foreach::foreach(
+      tgz = list.files(path = location, full.names = T, pattern = match.pattern)
+    ) %dopar% {
       metaphlan.file <- untar(tarfile = tgz, list = T) %>%
         str_subset("metaphlan_bugs_list.tsv$")
       untar(tarfile = tgz, files = metaphlan.file)
@@ -43,11 +50,16 @@ extract.metaphlan2.files <- function(match.pattern = "tgz$", location, move.to, 
       gzip.cmd <- paste("gzip -v", file.path(move.to, basename(metaphlan.file)))
       system(gzip.cmd)
       file.remove(metaphlan.untarred)
-      to.remove <- str_split(dirname(metaphlan.untarred), "/") %>%
-        sapply(`[`, 1) %>%
-        list.dirs(recursive = TRUE)
-      for (i in rev(seq_along(to.remove))) {
-        file.remove(to.remove[i])
+      to.remove <- dirname(metaphlan.untarred)
+      base.dir <- ifelse(
+        str_detect(run.env$base.dir, "/$"),
+        run.env$base.dir,
+        paste0(run.env$base.dir, "/")
+      )
+      while(to.remove != base.dir) {
+        cat(paste("Removing", to.remove), sep = "\n")
+        file.remove(to.remove)
+        to.remove <- str_remove(to.remove, "/[\\w-]+$")
       }
     } %>% try(silent = T)
     parallel::stopCluster(cl)

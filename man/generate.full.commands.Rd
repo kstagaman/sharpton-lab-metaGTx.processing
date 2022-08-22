@@ -12,7 +12,6 @@ generate.full.commands(
   prepend = NULL,
   src.tool.path = NULL,
   zip.output = TRUE,
-  write.to = NULL,
   ...
 )
 }
@@ -29,9 +28,9 @@ generate.full.commands(
 
 \item{zip.output}{logical; whether to gzip final output (occurs before moving files if \code{tmp.dir} is set). Default is TRUE.}
 
-\item{write.to}{character; file name to write commands to, if NULL, only returns commands as character vector. Default is NULL}
-
 \item{...}{other commands to pass to appropriate tool. Names must match short or long version found in that tool's help page.}
+
+\item{write.to}{character; file name to write commands to, if NULL, only returns commands as character vector. Default is NULL}
 }
 \description{
 This function generates a single-line tool command with the supplied parameters for each file in the supplied directory as well as appending other commands, such as gzipping and moving results files.

@@ -1,6 +1,6 @@
 Package: metaGTx.processing
 Title: Sharpton Lab Metagenomic & Metatranscriptomic Processing
-Version: 0.4.3
+Version: 0.4.4
 Date: `Sys.Date`
 Authors@R: 
     person("Keaton", "Stagaman", , "kstagaman@gmail.com", role = c("aut", "cre"),

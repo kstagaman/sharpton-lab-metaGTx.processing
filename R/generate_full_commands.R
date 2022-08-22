@@ -20,7 +20,6 @@ generate.full.commands <- function(
     prepend = NULL,
     src.tool.path = NULL,
     zip.output = TRUE,
-    write.to = NULL,
     ...
 ) {
   require(magrittr)

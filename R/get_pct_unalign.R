@@ -20,9 +20,11 @@ get.pct.unalign <- function(match.pattern = "tgz$", location, out.file, n.cores 
       nucl.unalign <- str_subset(lines, "Unaligned reads after nucleotide alignment") %>%
         str_extract("\\d+[\\d\\.]* \\%") %>%
         str_remove(" \\%")
+      nucl.unalign <- ifelse(length(nucl.unalign) == 0, NA, nucl.unalign)
       prot.unalign <- str_subset(lines, "Unaligned reads after translated alignment") %>%
         str_extract("\\d+[\\d\\.]* \\%") %>%
         str_remove(" \\%")
+      prot.unalign <- ifelse(length(prot.unalign) == 0, NA, prot.unalign)
       output.df <- rbind(
         output.df,
         data.frame(
@@ -57,9 +59,11 @@ get.pct.unalign <- function(match.pattern = "tgz$", location, out.file, n.cores 
       nucl.unalign <- str_subset(lines, "Unaligned reads after nucleotide alignment") %>%
         str_extract("\\d+[\\d\\.]* \\%") %>%
         str_remove(" \\%")
+      nucl.unalign <- ifelse(length(nucl.unalign) == 0, NA, nucl.unalign)
       prot.unalign <- str_subset(lines, "Unaligned reads after translated alignment") %>%
         str_extract("\\d+[\\d\\.]* \\%") %>%
         str_remove(" \\%")
+      prot.unalign <- ifelse(length(prot.unalign) == 0, NA, prot.unalign)
       output.df <- rbind(
         output.df,
         data.frame(
