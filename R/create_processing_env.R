@@ -64,12 +64,14 @@ create.processing.env <- function(
     date.time <- Sys.time() %>%
       str_replace_all(" ", "_") %>%
       str_replace_all(":", "-")
+    save.env.file <- file.path(
+      save.env.dir,
+      paste0("metaGTx_processing_environment_", date.time, ".RData")
+    )
     save(
       run.env,
-      file = file.path(
-        save.env.dir,
-        paste0("metaGTx_processing_environment_", date.time, ".RData")
-      )
+      file = save.env.file
     )
+    assign(x = "save.env.file", value = save.env.file, envir = run.env)
   }
 }
