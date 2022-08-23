@@ -1,6 +1,6 @@
 Package: metaGTx.processing
 Title: Sharpton Lab Metagenomic & Metatranscriptomic Processing
-Version: 0.4.4_1
+Version: 0.4.5
 Date: `Sys.Date`
 Authors@R: 
     person("Keaton", "Stagaman", , "kstagaman@gmail.com", role = c("aut", "cre"),
@@ -9,7 +9,7 @@ Description: Provides a template script and helper scripts for running BioBakery
 License: `use_mit_license()`
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1.9000
+RoxygenNote: 7.2.1
 Depends:
   magrittr,
   rlang,
