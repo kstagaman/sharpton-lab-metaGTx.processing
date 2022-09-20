@@ -3,7 +3,7 @@
 #' @description This function generates a character string of a command given a tool and its arguments.
 #' @param tool character; name of the appropriate tool, e.g. "kneaddata" or "humann".
 #' @param tool.path character; path to script for sourcing tool, if required by system, this will also append the command `source <PATH> ; ` to the full commands. NULL means this is not prepended. Default is NULL.
-#' @param ... other commands to pass to appropriate tool. Names must match short or long version found in that tool's help page.
+#' @param ... other commands to pass to appropriate tool. Names must match short or long version found in that tool's help page. If the flag takes no argument in the tool, pass "flag" to the argument. E.g. for bash command `ls -l` you could run `generate.tool.command(tool = "ls", l = "flag")`
 #' @seealso \code{\link{system}}, \code{\link{list2}}
 #' @export
 

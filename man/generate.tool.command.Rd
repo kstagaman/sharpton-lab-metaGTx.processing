@@ -11,7 +11,7 @@ generate.tool.command(tool, tool.path = NULL, ...)
 
 \item{tool.path}{character; path to script for sourcing tool, if required by system, this will also append the command \verb{source <PATH> ; } to the full commands. NULL means this is not prepended. Default is NULL.}
 
-\item{...}{other commands to pass to appropriate tool. Names must match short or long version found in that tool's help page.}
+\item{...}{other commands to pass to appropriate tool. Names must match short or long version found in that tool's help page. If the flag takes no argument in the tool, pass "flag" to the argument. E.g. for bash command \code{ls -l} you could run \code{generate.tool.command(tool = "ls", l = "flag")}}
 }
 \description{
 This function generates a character string of a command given a tool and its arguments.
