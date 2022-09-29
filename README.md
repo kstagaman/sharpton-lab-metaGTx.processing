@@ -5,7 +5,7 @@ This is a package for running a metagenomic/metatranscriptomic pipeline, primari
 Installation:
 
 ```
-devtools::install_github("kstagaman/sharpton-lab-metaGTx.processing")
+remotes::install_github("kstagaman/sharpton-lab-metaGTx.processing")
 ```
 
 
